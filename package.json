@@ -1,25 +1,30 @@
 {
   "name": "JATE",
   "version": "1.0.0",
-  "description": "",
+  "description": "Text editor web application with offline support and IndexedDB storage",
   "main": "server.js",
   "scripts": {
-    "start:dev": "",
-    "start": "",
-    "server": "",
-    "build": "",
-    "install": "",
-    "client": ""
+    "start:dev": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "node server.js",
+    "server": "if-env NODE_ENV=production && npm run start || npm run server:dev",
+    "build": "webpack --config webpack.config.js",
+    "install": "echo This script is for installing dependencies and does nothing on its own.",
+    "client": "webpack-dev-server --open --config webpack.config.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "if-env": "^1.0.4"
+    "if-env": "^1.0.4",
+    "idb": "^5.0.4",
+    "workbox-cli": "^6.3.0"
   },
   "devDependencies": {
     "concurrently": "^5.2.0",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "webpack": "^5.59.1",
+    "webpack-cli": "^4.9.0",
+    "webpack-dev-server": "^4.7.4"
   }
 }

@@ -11,25 +11,25 @@ module.exports = () => {
       install: './src/js/install.js'
     },
     output: {
-      filename: '[name].bundle.js',
+      filename: 'JATE.bundle.js',
       path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: '/index.html', 
+        template: './index.html',
         filename: 'index.html',
         chunks: ['main'],
       }),
       new HtmlWebpackPlugin({
-        template: './src/install.html', 
+        template: './install.html',
         filename: 'install.html',
         chunks: ['install'],
       }),
       new WebpackPwaManifest({
         filename: 'manifest.json',
-        name: 'Your App Name',
-        short_name: 'App Name',
-        description: 'Description of your app',
+        name: 'Just Another Text Editor',
+        short_name: 'JATE',
+        description: 'Another Text Editor',
         background_color: '#ffffff',
         theme_color: '#31a9e1',
         icons: [
@@ -41,7 +41,7 @@ module.exports = () => {
         ],
       }),
       new InjectManifest({
-        swSrc: '/src-sw.js', // Path to your service worker source file
+        swSrc: './src-sw.js', // Path to your service worker source file
         swDest: 'sw.js', // Output service worker file name
         exclude: [/\.map$/, /manifest\.json$/, /install\.html$/],
       }),
