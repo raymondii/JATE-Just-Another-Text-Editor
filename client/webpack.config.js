@@ -3,41 +3,46 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const path = require('path');
 const { InjectManifest } = require('workbox-webpack-plugin');
 
+
 module.exports = () => {
   return {
     mode: 'development',
     entry: {
-      main: './client/src/js/index.js',
-      install: './client/src/js/install.js'
+      main: './src/js/index.js',
+      install: './src/js/install.js'
     },
     output: {
-      filename: 'JATE.bundle.js',
+      filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: './client/index.html',
+        template: './index.html',
         filename: 'index.html',
-        chunks: ['main'],
+        // chunks: ['main'],
       }),
       new WebpackPwaManifest({
-        filename: 'manifest.json',
+        fingerprints: false,
+        inject: true,
+        // filename: 'manifest.json',
         name: 'Just Another Text Editor',
         short_name: 'JATE',
         description: 'Another Text Editor',
         background_color: '#ffffff',
         theme_color: '#31a9e1',
+        start_url: '/',
+        publicPath: '/',
         icons: [
           {
-            src: path.resolve('./client/src/images/logo.png'), // Adjusted path to app icon
+            src: path.resolve('./src/images/logo.png'),
             sizes: [96, 128, 192, 256, 384, 512],
             destination: path.join('assets', 'icons'),
           },
         ],
       }),
       new InjectManifest({
-        swSrc: './client/src-sw.js', // Path to your service worker source file
-        swDest: 'sw.js', // Output service worker file name
+        swSrc: './src-sw.js', // Path to your service worker source file
+        swDest: 'src-sw.js', // Output service worker file name
         exclude: [/\.map$/, /manifest\.json$/, /install\.html$/],
       }),
     ],
@@ -54,6 +59,7 @@ module.exports = () => {
             loader: 'babel-loader',
             options: {
               presets: ['@babel/preset-env'],
+              plugins: ['@babel/plugin-proposal-object-rest-spread', '@babel/transform-runtime'],
             },
           },
         },

@@ -21,11 +21,12 @@ const initdb = async () => {
 };
 
 export const putDb = async (content) => {
+  console.log(content);
   try {
     const db = await initdb();
     const tx = db.transaction(STORE_NAME, 'readwrite');
     const store = tx.objectStore(STORE_NAME);
-    await store.put({ content });
+    await store.put({ id: 1, value: content });
   } catch (error) {
     console.error('Error storing data in database:', error);
     throw error;
@@ -37,8 +38,8 @@ export const getDb = async () => {
     const db = await initdb();
     const tx = db.transaction(STORE_NAME, 'readonly');
     const store = tx.objectStore(STORE_NAME);
-    const data = await store.getAll();
-    return data.length > 0 ? data[0].content : null;
+    const data = await store.get(1);
+    return data?.value
   } catch (error) {
     console.error('Error retrieving data from database:', error);
     throw error;
