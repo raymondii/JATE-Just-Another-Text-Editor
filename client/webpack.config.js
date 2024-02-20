@@ -7,8 +7,8 @@ module.exports = () => {
   return {
     mode: 'development',
     entry: {
-      main: './src/js/index.js',
-      install: './src/js/install.js'
+      main: './client/src/js/index.js',
+      install: './client/src/js/install.js'
     },
     output: {
       filename: 'JATE.bundle.js',
@@ -16,14 +16,9 @@ module.exports = () => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: './index.html',
+        template: './client/index.html',
         filename: 'index.html',
         chunks: ['main'],
-      }),
-      new HtmlWebpackPlugin({
-        template: './install.html',
-        filename: 'install.html',
-        chunks: ['install'],
       }),
       new WebpackPwaManifest({
         filename: 'manifest.json',
@@ -34,14 +29,14 @@ module.exports = () => {
         theme_color: '#31a9e1',
         icons: [
           {
-            src: path.resolve('./src/images/logo.png'), // Path to app icon
+            src: path.resolve('./client/src/images/logo.png'), // Adjusted path to app icon
             sizes: [96, 128, 192, 256, 384, 512],
             destination: path.join('assets', 'icons'),
           },
         ],
       }),
       new InjectManifest({
-        swSrc: './src-sw.js', // Path to your service worker source file
+        swSrc: './client/src-sw.js', // Path to your service worker source file
         swDest: 'sw.js', // Output service worker file name
         exclude: [/\.map$/, /manifest\.json$/, /install\.html$/],
       }),
@@ -63,6 +58,14 @@ module.exports = () => {
           },
         },
       ],
+    },
+    devServer: {
+      static: {
+        directory: path.join(__dirname, './dist'),
+      },
+      compress: true,
+      port: 8080,
+      watchFiles: ['./src/**/*']
     },
   };
 };
